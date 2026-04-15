@@ -1,11 +1,14 @@
-import VideoPlayer from "./components/VideoPlayer";
+import { Routes, Route } from "react-router-dom";
+import RoomPicker from "./pages/RoomPicker";
+import RoomPage from "./pages/RoomPage";
 
 function App() {
   return (
     <>
-      <div className="flex w-screen h-screen flex-col items-center gap-3">
-        <VideoPlayer />
-      </div>
+      <Routes>
+        <Route path="/" element={<RoomPicker />} />
+        <Route path="/room/:roomId" element={<RoomPage />} />
+      </Routes>
     </>
   );
 }
