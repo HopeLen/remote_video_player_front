@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ReactPlayer from "react-player";
+import { socket } from "../../socket";
 
 function VideoPlayer() {
   const [url, setUrl] = useState("");
@@ -14,6 +15,11 @@ function VideoPlayer() {
     console.log(data);
     setTitle(data.title);
     setUrl(tempUrl);
+
+    socket.emit("loadUrl", {
+      url: tempUrl,
+      title: data.title,
+    });
   }
 
   return (
