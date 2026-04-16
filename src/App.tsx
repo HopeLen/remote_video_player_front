@@ -7,7 +7,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<RoomPicker />} />
-        <Route path="/room/:roomId" element={<RoomPage />} />
+        <Route path="/room" element={<RoomPage />} />
       </Routes>
     </>
   );

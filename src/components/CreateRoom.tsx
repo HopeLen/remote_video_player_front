@@ -10,7 +10,7 @@ function CreateRoom() {
     const roomId = uuidv4();
     console.log("Joining room: ", roomId);
 
-    navigate(`/room/${roomId}`);
+    navigate(`/room?roomId=${roomId}`);
   };
 
   return (

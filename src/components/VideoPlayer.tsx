@@ -3,11 +3,12 @@ import ReactPlayer from "react-player";
 import { socket } from "../../socket";
 import Button from "./Button";
 
-function VideoPlayer({ roomId }: { roomId: string | undefined }) {
+function VideoPlayer({ roomId }: { roomId: string | null }) {
   const [url, setUrl] = useState("");
   const [tempUrl, setTempUrl] = useState("");
   const [title, setTitle] = useState("");
   const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
 
   async function loadVideoInfo() {
     const data = await fetch(
@@ -32,10 +33,14 @@ function VideoPlayer({ roomId }: { roomId: string | undefined }) {
 
   useEffect(() => {
     socket.on("room:play", () => {
+      setMuted(true);
       setPlaying(true);
+      setMuted(false);
     });
     socket.on("room:pause", () => {
+      setMuted(true);
       setPlaying(false);
+      setMuted(false);
     });
 
     return () => {
@@ -55,7 +60,7 @@ function VideoPlayer({ roomId }: { roomId: string | undefined }) {
               width="100%"
               height="100%"
               controls
-              muted={false}
+              muted={muted}
               playing={playing}
               onPlay={() => {
                 socket.emit("client:play", { roomId, playing: true });

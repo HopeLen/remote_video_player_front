@@ -1,11 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { socket } from "../../socket";
 
 import VideoPlayer from "../components/VideoPlayer";
 
 function RoomPage() {
-  const { roomId } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const roomId = searchParams.get("roomId");
 
   useEffect(() => {
     if (!roomId) return;

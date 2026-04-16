@@ -9,7 +9,7 @@ function JoinRoom() {
   const handleRoomJoin = () => {
     console.log("Navigating to room:", roomId);
 
-    navigate(`/room/${roomId}`);
+    navigate(`/room?roomId=${roomId}`);
   };
 
   return (
