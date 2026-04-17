@@ -19,4 +19,7 @@ export default defineConfig({
       },
     },
   },
+  build:{
+    outDir:"../remote_video_player_back/dist"
+  }
 });

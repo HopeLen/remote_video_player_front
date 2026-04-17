@@ -52,7 +52,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
   return (
     <>
       {title && <h2 className="mt-2">{title}</h2>}{" "}
-      <div className="flex justify-center items-center w-full max-w-3xl aspect-video">
+      <div className="flex justify-center items-center w-full max-w-2xl aspect-video">
         {url && (
           <div className="w-full max-w-4xl aspect-video">
             <ReactPlayer
@@ -74,7 +74,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
       </div>
       <div className="flex gap-2 flex-col">
         <input
-          className="border p-2 w-96"
+          className="border p-2 w-96 self-center"
           placeholder="Paste YouTube URL"
           value={tempUrl}
           onChange={async (e) => {
