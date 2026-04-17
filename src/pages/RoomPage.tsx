@@ -5,6 +5,7 @@ import { socket } from "../../socket";
 import VideoPlayer from "../components/VideoPlayer";
 import NameDisplay from "../components/NameDisplay";
 import type { RoomNameType } from "../types/RoomNameType";
+import CopyButton from "../components/CopyButton";
 
 function RoomPage() {
   const [searchParams] = useSearchParams();
@@ -41,6 +42,7 @@ function RoomPage() {
     <div className="w-screen h-screen flex flex-col md:flex-row items-center justify-center relative gap-4">
       <div className="items-center justify-center flex flex-col gap-4">
         <VideoPlayer roomId={roomId} />
+        <CopyButton roomId={roomId} />
       </div>
       {/* NameDisplay */}
       <div className="md:absolute md:left-4 md:top-1/2 md:-translate-y-1/2">

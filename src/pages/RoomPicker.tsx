@@ -14,7 +14,7 @@ function RoomPicker() {
         </div>
         <div className="w-fit flex gap-2 flex-col md:flex-row">
           <JoinRoom name={name} />
-          <CreateRoom />
+          <CreateRoom name={name}/>
         </div>
       </div>
     </>
