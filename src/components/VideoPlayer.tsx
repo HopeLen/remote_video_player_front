@@ -9,6 +9,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
   const [title, setTitle] = useState("");
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [looped, setLooped] = useState(false);
 
   async function loadVideoInfo() {
     const data = await fetch(
@@ -42,6 +43,9 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
       setPlaying(false);
       setMuted(false);
     });
+    socket.on("server:looped", (newLoop) => {
+      setLooped(newLoop);
+    });
 
     return () => {
       socket.off("room:play");
@@ -62,6 +66,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
               controls
               muted={muted}
               playing={playing}
+              loop={looped}
               onPlay={() => {
                 socket.emit("client:play", { roomId, playing: true });
               }}
@@ -83,6 +88,18 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
           }}
         />{" "}
         <Button onClick={loadVideoInfo} text="Load" />
+        <Button
+          text={looped ? "Disable Loop" : "Enable Loop"}
+          onClick={() => {
+            const newLoop = !looped;
+            setLooped(newLoop);
+
+            socket.emit("client:looped", {
+              roomId: roomId,
+              looped: newLoop,
+            });
+          }}
+        />
       </div>
     </>
   );
