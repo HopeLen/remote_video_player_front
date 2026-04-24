@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { socket } from "../../socket";
 import Button from "./Button";
@@ -9,6 +9,9 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
   const [title, setTitle] = useState("");
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [key, setKey] = useState(0);
+
+  const playerRef = useRef<any>(null);
 
   async function loadVideoInfo() {
     const data = await fetch(
@@ -26,12 +29,21 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
     });
   }
 
-  socket.on("loadUrl", (data) => {
-    setTitle(data.title);
-    setUrl(data.url);
-  });
+  const handleEnding = () => {
+    setKey((prev) => prev + 1);
 
+    setPlaying(true);
+
+    socket.emit("client:play", {
+      roomId,
+      playing: true,
+    });
+  };
   useEffect(() => {
+    socket.on("loadUrl", (data) => {
+      setTitle(data.title);
+      setUrl(data.url);
+    });
     socket.on("room:play", () => {
       setMuted(true);
       setPlaying(true);
@@ -46,6 +58,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
     return () => {
       socket.off("room:play");
       socket.off("room:pause");
+      socket.off("loadUrl");
     };
   }, []);
 
@@ -56,18 +69,22 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
         {url && (
           <div className="w-full max-w-4xl aspect-video">
             <ReactPlayer
+              key={key}
               src={url}
               width="100%"
               height="100%"
               controls
               muted={muted}
               playing={playing}
-              loop={true}
               onPlay={() => {
                 socket.emit("client:play", { roomId, playing: true });
               }}
               onPause={() => {
                 socket.emit("client:pause", { roomId, playing: false });
+              }}
+              onEnded={handleEnding}
+              ref={(player) => {
+                playerRef.current = player;
               }}
             />
           </div>
