@@ -9,7 +9,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
   const [title, setTitle] = useState("");
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [key, setKey] = useState(0);
+  //const [key, setKey] = useState(0);
 
   const playerRef = useRef<any>(null);
 
@@ -30,15 +30,13 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
   }
 
   const handleEnding = () => {
-    setKey((prev) => prev + 1);
-
-    setPlaying(true);
-
+    setPlaying(true)
     socket.emit("client:play", {
       roomId,
       playing: true,
     });
   };
+
   useEffect(() => {
     socket.on("loadUrl", (data) => {
       setTitle(data.title);
@@ -69,7 +67,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
         {url && (
           <div className="w-full max-w-4xl aspect-video">
             <ReactPlayer
-              key={key}
+              //key={key}
               src={url}
               width="100%"
               height="100%"
@@ -83,9 +81,8 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
                 socket.emit("client:pause", { roomId, playing: false });
               }}
               onEnded={handleEnding}
-              ref={(player) => {
-                playerRef.current = player;
-              }}
+              ref={playerRef}
+              crossOrigin=""
             />
           </div>
         )}{" "}
