@@ -6,6 +6,7 @@ import VideoPlayer from "../components/VideoPlayer";
 import NameDisplay from "../components/NameDisplay";
 import type { RoomNameType } from "../types/RoomNameType";
 import CopyButton from "../components/CopyButton";
+import TextParagraph from "../components/TextParagraph";
 
 function RoomPage() {
   const [searchParams] = useSearchParams();
@@ -14,6 +15,9 @@ function RoomPage() {
   const name = searchParams.get("name");
 
   const [roomUsers, setRoomUsers] = useState<RoomNameType[]>([]);
+
+  const text =
+    "Paste the youtube link into the input bar and press load to load the video for everyone in the room. Keep in mind the video does NOT autoplay, you'll have to press play. Afterwards the play/pause actions are synced between everyone in the room. The volume and timestamp are NOT synced. All videos by default are looped. Enjoy ;)";
 
   useEffect(() => {
     if (!roomId) return;
@@ -47,6 +51,9 @@ function RoomPage() {
       {/* NameDisplay */}
       <div className="md:absolute md:left-4 md:top-1/2 md:-translate-y-1/2">
         <NameDisplay roomUsers={roomUsers} />
+      </div>
+        <div className="w-fit max-w-2xs flex flex-col gap-3 md:absolute md:right-4 md:top-1/2 md:-translate-y-1/2">
+        <TextParagraph text={text} />
       </div>
     </div>
   );

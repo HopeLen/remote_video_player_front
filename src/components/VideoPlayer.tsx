@@ -71,6 +71,7 @@ function VideoPlayer({ roomId }: { roomId: string | null }) {
               src={url}
               width="100%"
               height="100%"
+              volume={0.5}
               controls
               muted={muted}
               playing={playing}
